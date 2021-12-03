@@ -42,6 +42,8 @@ const steps = ['Shipping address', 'Payment details'];
 const Checkout = ({ cart, onCaptureCheckout, order, error }) => {
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [loaderIcon, setLoaderIcon] = useState(false);
+  const [orderPlacedSuccess, setOrderPlacedSuccess] = useState(false);
+  const [orderPlacedFailed, setOrderPlacedFailed] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [shippingData, setShippingData] = useState({});
   const classes = useStyles();
@@ -59,18 +61,22 @@ const Checkout = ({ cart, onCaptureCheckout, order, error }) => {
           {token = await commerce.checkout.generateToken(cart.id, { type: 'cart' });}
           else {
             setLoaderIcon(true);
-            fetchItemDetailsForCheckout().subscribe(res => {
-              //setLoaderIcon(false);
-              alert("Order placed!");
-              history.push('/');
-            }, (err) => {
-              setLoaderIcon(false);
-              window.location = `${BACKEND_ENDPOINT}/market/getitemdetails/1`;
-              //history.push('/market/getitemdetails/1');
-            });
+            setOrderPlacedFailed(false);
+            setOrderPlacedSuccess(false);
+            setTimeout(() => {
+              fetchItemDetailsForCheckout().subscribe(res => {
+                setLoaderIcon(false);
+                setOrderPlacedSuccess(true);
+                alert("Order placed!");
+                history.push('/');
+              }, (err) => {
+                setLoaderIcon(false);
+                setOrderPlacedFailed(true);
+                //window.location = `${BACKEND_ENDPOINT}/market/getitemdetails/1`;
+                //history.push('/market/getitemdetails/1');
+              });
+            }, 3000);
           }
-          console.log(token);
-          //const token = checkoutService.generateToken(cart.id, { type: 'cart' });
 
           setCheckoutToken(token);
         } catch {
@@ -120,23 +126,16 @@ const Checkout = ({ cart, onCaptureCheckout, order, error }) => {
 
   return (
     <>
-    {loaderIcon? <div>Getting item details for checkout</div>:
+    {loaderIcon? <div style={{fontSize: "26px", backgroundColor: "grey", opacity: 0.3, margin: "auto", width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px"}}>
+      <img src="/LoaderIcon.svg" style={{width: "100%", margin: "auto", height: "100%"}}/>
+      </div>:
     <>
-      <CssBaseline />
-      <div className={classes.toolbar} />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Typography variant="h4" align="center">Checkout</Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          {activeStep === steps.length ? <Confirmation /> : checkoutToken && <Form />}
-        </Paper>
-      </main>
+      {orderPlacedSuccess? <div style={{color: "green", fontSize: "26px", margin: "75px auto auto auto", width: "50%"}}>
+        Order placed successfully!
+      </div>: ""}
+      {orderPlacedFailed? <div style={{color: "#e80505", fontSize: "26px", margin: "75px auto auto auto", width: "50%"}}>
+        Failed to place order!
+      </div>: ""}
     </>
     }
     </>

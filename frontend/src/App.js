@@ -12,6 +12,8 @@ const App = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
+  const [productInfoLoadFailed, setProductInfoLoadFailed] = useState(false);
+  const [loadingItems, setLoadingItems] = useState(false);
   const [order, setOrder] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -24,11 +26,18 @@ const App = () => {
       setProducts(data);
     }
     else {
-      cartService.getProductInfo().subscribe(res => {
-        let sdata = res;
-        data = sdata.data;
-        setProducts(data);
-      });
+      setLoadingItems(true);
+      setTimeout(() => {
+        cartService.getProductInfo().subscribe(res => {
+          setLoadingItems(false);
+          let sdata = res;
+          data = sdata.data;
+          setProducts(data);
+        }, err => {
+          setLoadingItems(false);
+          setProductInfoLoadFailed(true);
+        });
+      }, 2000);
     }
   };
 
@@ -120,7 +129,7 @@ const App = () => {
       <div style={{ display: 'flex' }}>
         <CssBaseline />
         <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} />
-        <Switch>
+        {productInfoLoadFailed? "" : <Switch>
           <Route exact path="/">
             <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />
           </Route>
@@ -130,8 +139,16 @@ const App = () => {
           <Route path="/checkout" exact>
             <Checkout cart={cart} order={order} onCaptureCheckout={handleCaptureCheckout} error={errorMessage} />
           </Route>
-        </Switch>
+        </Switch>}
       </div>
+      {productInfoLoadFailed?
+      <div style={{color: "#e80505", fontSize: "26px", margin: "75px auto auto auto", width: "50%"}}>
+        An error occurred while loading the available products.
+      </div> : ""}
+      {loadingItems?
+      <div style={{fontSize: "26px", backgroundColor: "grey", opacity: 0.3, margin: "auto", width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px"}}>
+      <img src="/LoaderIcon.svg" style={{width: "100%", margin: "auto", height: "100%"}}/>
+      </div> : ""}
     </Router>
   );
 };

@@ -5,7 +5,12 @@ var cartState = {
     id: "cart101",
     total_items: 0,
     line_items: [],
-    subtotal: 0
+    subtotal: {
+      raw: 0,
+      formatted: "0.00",
+      formatted_with_symbol: "$0.00",
+      formatted_with_code: "0.00 USD"
+    }
 };
 
 var productInfo = [
@@ -140,14 +145,18 @@ var productInfo = [
     ];
 
 const fetchItemsRequest = () => {
-    let url = "https://takeithome-ordermanagement.azurewebsites.net/api/GetOrders";
+    let url = "https://takeithome-ordermanagement.azurewebsites.net/api/GetAvailableItems";
+    let acceptablestatus = 200;
+    //let url = "http://www.gstatic.com/generate_204";
+    //let acceptablestatus = 0;
     return from(
-      fetch(url, {}).then((response) => {
-        return response.json().then((data) => {return {
-          ok: response.ok,
-          status: response.status,
-          json: data
-        }})
+      fetch(url, {mode: 'no-cors'}).then((response) => {
+        if (response.ok || response.status == acceptablestatus) {
+          return {"hello": "sir"};
+        }
+        else {
+          throw new Error("Failed to fetch available items");
+        }
       })
     );
   };
@@ -156,12 +165,25 @@ const fetchItemsRequest = () => {
 export const getProductInfo = () => {
     return fetchItemsRequest().pipe(map(res => {
         return {data: productInfo};
-    }), catchError(err => {alert("Failed to load menu items: " + err.message);}));
+    }));
 };
 
 export const retrieve = () => {
     return cartState
 };
+
+const calculateSubtotal = () => {
+  var sum = 0;
+  for(var i=0; i<cartState.line_items.length; i++) {
+    sum = sum + cartState.line_items[i].line_total;
+  }
+  cartState.subtotal = {
+    raw: sum,
+    formatted: `${sum.toFixed(2)}`,
+    formatted_with_symbol: `$${sum.toFixed(2)}`,
+    formatted_with_code: `${sum.toFixed(2)} USD`
+  }
+}
 
 export const add = (productId, quantity) => {
     let existing = cartState.line_items.find(x => x.id == productId);
@@ -176,13 +198,15 @@ export const add = (productId, quantity) => {
                 id: productInf.id,
                 media: productInf.media,
                 name: productInf.name,
-                line_total: quantity * productInf.price,
+                price: productInf.price.raw,
+                line_total: quantity * productInf.price.raw,
                 quantity: quantity
             };
             cartState.line_items.push(line_item);
             cartState.total_items = cartState.total_items + quantity;
         }
     }
+    calculateSubtotal();
     return {
         cart: cartState
     };
@@ -194,8 +218,10 @@ export const update = (productId, quantity) => {
     if (existing) {
         let diff = quantity - existing.quantity;
         existing.quantity = quantity;
+        existing.line_total = existing.quantity * existing.price;
         cartState.total_items = cartState.total_items + diff;
     }
+    calculateSubtotal();
     return {
         cart: cartState
     };
@@ -208,7 +234,7 @@ export const remove = (productId) => {
         cartState.total_items = cartState.total_items - existing.quantity;
         cartState.line_items.splice(existingIndex, 1);
     }
-
+    calculateSubtotal();
     return {
         cart: cartState
     };
@@ -221,6 +247,7 @@ export const empty = () => {
         line_items: [],
         subtotal: 0
     };
+    calculateSubtotal();
     return {
         cart: cartState
     };

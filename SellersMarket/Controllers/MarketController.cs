@@ -42,6 +42,14 @@ namespace SellersMarket.Controllers
             return FoodItems.ToArray();
         }
 
+
+        [HttpGet("bulkentries")]
+        public string BulkEntries()
+        {
+            itemListingService.ConsumeCPU(90);
+            return "Done"; 
+        }
+
         [HttpGet("getitemdetails/{itemId}")]
         public string GetItemDetails(string itemId)
         {
