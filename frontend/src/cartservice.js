@@ -150,7 +150,7 @@ const fetchItemsRequest = () => {
     //let url = "http://www.gstatic.com/generate_204";
     //let acceptablestatus = 0;
     return from(
-      fetch(url, {mode: 'no-cors'}).then((response) => {
+      fetch(url).then((response) => {
         if (response.ok || response.status == acceptablestatus) {
           return {"hello": "sir"};
         }
