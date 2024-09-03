@@ -19,7 +19,7 @@ var productInfo = [
         name: "Chocolates",
         description: "Cadbury Dairy Milk",
         media: {
-          source: "https://economycandy.com/wp-content/uploads/2019/07/products-Cadbury-Dairy-Milk-7oz-Bar-1.jpg",
+          source: "https://www.oneagrix.com/pub/media/catalog/product/cache/425d33ca3164e147af7aa03d8f0c0689/c/a/cadbury_dairy_milk_chocolate.jpg",
           type: "image"
         },
         price: {
@@ -35,7 +35,7 @@ var productInfo = [
         name: "Chocolates",
         description: "Cadbury Dairy Milk Crackle",
         media: {
-          source: "https://www.73mart.com/wp-content/uploads/2021/02/CADBURY-DAIRY-MILK-CRACKLE-CHOCOLATE-BARS-36-GM.jpg",
+          source: "https://www.bigbasket.com/media/uploads/p/l/267463_17-cadbury-dairy-milk-crackle-chocolate-bar.jpg",
           type: "image"
         },
         price: {
@@ -67,7 +67,7 @@ var productInfo = [
         name: "Chocolates",
         description: "Nestle Kitkat",
         media: {
-          source: "https://static.turbosquid.com/Preview/2020/05/22__05_27_56/1.jpg7A529405-CD52-4D37-B86D-B6082CD55C10DefaultHQ.jpg",
+          source: "https://article.innovamarketinsights360.com/articleimgs/article_images/637545935061727843KitKat%20square.png",
           type: "image"
         },
         price: {
@@ -83,7 +83,7 @@ var productInfo = [
         name: "Cakes",
         description: "Raspberry Almond Ice cream cake",
         media: {
-          source: "https://www.homecookingadventure.com/images/recipes/raspberry_alomnd_ice_cream_cake_main.jpg",
+          source: "https://www.homecookingadventure.com/wp-content/uploads/2022/01/raspberry_alomnd_ice_cream_cake_main.jpg",
           type: "image"
         },
         price: {
