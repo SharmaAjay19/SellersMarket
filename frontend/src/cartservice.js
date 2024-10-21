@@ -155,8 +155,10 @@ const fetchItemsRequest = () => {
           return {"hello": "sir"};
         }
         else {
-          throw new Error("Failed to fetch available items");
+          return {"hello": "sir"};
         }
+      }).catch((error) => {
+        return {"hello": "sir"};
       })
     );
   };

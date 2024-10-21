@@ -20,6 +20,7 @@ namespace SellersMarket.Services
 
         public string GetItemDetails(FoodItem item)
         {
+            Thread.Sleep(10000);
             var itemDetails = new FoodItemDetails() { ItemName = item.ItemName };
             return itemDetails.ItemName;
         }

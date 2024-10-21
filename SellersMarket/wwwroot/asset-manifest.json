@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/static/js/main.c12837fa.chunk.js",
-    "main.js.map": "/static/js/main.c12837fa.chunk.js.map",
+    "main.js": "/static/js/main.8c584bfc.chunk.js",
+    "main.js.map": "/static/js/main.8c584bfc.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.a418149b.js",
     "runtime-main.js.map": "/static/js/runtime-main.a418149b.js.map",
     "static/js/2.ac7c798c.chunk.js": "/static/js/2.ac7c798c.chunk.js",
     "static/js/2.ac7c798c.chunk.js.map": "/static/js/2.ac7c798c.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.1b92536e2a8c1e7e6e8fc5f2c51cd02b.js": "/precache-manifest.1b92536e2a8c1e7e6e8fc5f2c51cd02b.js",
+    "precache-manifest.544ca89fbbedb1396c9d775d47ebdfce.js": "/precache-manifest.544ca89fbbedb1396c9d775d47ebdfce.js",
     "service-worker.js": "/service-worker.js",
     "static/js/2.ac7c798c.chunk.js.LICENSE.txt": "/static/js/2.ac7c798c.chunk.js.LICENSE.txt",
     "static/media/bakerylogo.png": "/static/media/bakerylogo.023f4c9a.png"
@@ -15,6 +15,6 @@
   "entrypoints": [
     "static/js/runtime-main.a418149b.js",
     "static/js/2.ac7c798c.chunk.js",
-    "static/js/main.c12837fa.chunk.js"
+    "static/js/main.8c584bfc.chunk.js"
   ]
 }

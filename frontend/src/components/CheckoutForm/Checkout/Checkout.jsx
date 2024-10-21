@@ -12,7 +12,7 @@ import { map, catchError, mergeMap } from "rxjs/operators";
 
 const BACKEND_ENDPOINT = 
    (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')? (process.env.REACT_APP_BACKEND_ENDPOINT?? "https://localhost:5001"):
-   (window.location.hostname.includes("takeithome")? "https://takeithome.azurewebsites.net": "");
+   (window.location.hostname.includes("takeithome")? "https://takeithomebakery.azurewebsites.net": "");
 
 const fetchItemDetailsForCheckout = () => {
   let url = `${BACKEND_ENDPOINT}/market/getitemdetails/1`;
